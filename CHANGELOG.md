@@ -1,3 +1,6 @@
+## V1.0.4
+提供 consumerProguardFiles,应用不再需要复制 Proguard 语句
+
 ## V1.0.3
 更新依赖： 
 
