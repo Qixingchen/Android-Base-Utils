@@ -81,40 +81,40 @@ public class LogHelper {
 
 
     public static void w(String msg) {
-        if (LOG_ENABLE && Log.isLoggable(TAG, Log.WARN)) {
+        if (Log.isLoggable(TAG, Log.WARN)) {
             Log.w(TAG, buildMsg(msg));
         }
     }
 
     public static void w(Throwable e) {
-        if (LOG_ENABLE && Log.isLoggable(TAG, Log.ERROR)) {
+        if (Log.isLoggable(TAG, Log.WARN)) {
             Log.w(TAG, buildMsg(""), e);
         }
     }
 
 
     public static void w(String msg, Throwable e) {
-        if (LOG_ENABLE && Log.isLoggable(TAG, Log.WARN)) {
+        if (Log.isLoggable(TAG, Log.WARN)) {
             Log.w(TAG, buildMsg(msg), e);
         }
     }
 
 
     public static void e(String msg) {
-        if (LOG_ENABLE && Log.isLoggable(TAG, Log.ERROR)) {
+        if (Log.isLoggable(TAG, Log.ERROR)) {
             Log.e(TAG, buildMsg(msg));
         }
     }
 
     public static void e(Throwable e) {
-        if (LOG_ENABLE && Log.isLoggable(TAG, Log.ERROR)) {
+        if (Log.isLoggable(TAG, Log.ERROR)) {
             Log.e(TAG, buildMsg(""), e);
         }
     }
 
 
     public static void e(String msg, Throwable e) {
-        if (LOG_ENABLE && Log.isLoggable(TAG, Log.ERROR)) {
+        if (Log.isLoggable(TAG, Log.ERROR)) {
             Log.e(TAG, buildMsg(msg), e);
         }
     }
@@ -141,12 +141,22 @@ public class LogHelper {
 
     /***
      * 显示 toast
-     * todo 小米设备跳过显示
      */
     public static void Toast(CharSequence message) {
+        Toast(message, true);
+    }
+
+    /***
+     * 显示 toast
+     * todo 小米设备跳过显示
+     */
+    public static void Toast(CharSequence message, boolean printLog) {
         try {
             Toast.makeText(Init.getApplication(), message, Toast.LENGTH_LONG).show();
         } catch (Exception ignore) {
+        }
+        if (printLog) {
+            w(String.valueOf(message));
         }
     }
 
@@ -181,7 +191,7 @@ public class LogHelper {
             }
         }
         if (printLog) {
-            e(message);
+            w(message);
         }
     }
 
