@@ -19,7 +19,7 @@
 -keepclassmembers class * implements java.io.Serializable {
     *;
 }
--keep -keepclassmembers class * implements java.io.Serializable {
+-keep class * implements java.io.Serializable {
           *;
       }
 
