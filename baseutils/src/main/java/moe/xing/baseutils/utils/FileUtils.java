@@ -1,7 +1,10 @@
 package moe.xing.baseutils.utils;
 
 import android.content.res.AssetManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
@@ -19,6 +22,7 @@ import java.nio.channels.FileChannel;
 
 import moe.xing.baseutils.Init;
 import moe.xing.baseutils.R;
+
 /**
  * Created by Qi xingchen on 2016/7/26 0026.
  * <p>
@@ -210,6 +214,34 @@ public class FileUtils {
         url = url.substring(url.lastIndexOf("/") + 1).replace("%", "_");
 
         return url;
+    }
+
+    /**
+     * 从 Uri 查询文件名
+     *
+     * @param uri 文件的 Uri
+     * @return 文件名
+     */
+    public static String getFileNameFromUri(@NonNull Uri uri) {
+        Cursor cursor = Init.getApplication().getContentResolver()
+                .query(uri, null, null, null, null, null);
+        try {
+            // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
+            // "if there's anything to look at, look at it" conditionals.
+            if (cursor != null && cursor.moveToFirst()) {
+
+                // Note it's called "Display Name".  This is
+                // provider-specific, and might not necessarily be the file name.
+                return cursor.getString(
+                        cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+
+        }
+        return "noname";
     }
 
 }
