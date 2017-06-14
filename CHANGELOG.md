@@ -1,3 +1,11 @@
+## V1.0.7
+添加 getFileNameFromUri 方法  
+更新依赖  
+1. gradle tools 2.2.2 -> 2.3.2
+1. supportLibraryVersion 25.3.1 -> 25.4.0
+1. buildToolsVersion 25.0.2 -> 25.0.3
+1. okhttp 3.7.0 -> 3.8.0
+
 ## V1.0.6
 修复 Serializable 相关的 Proguard 问题
 
