@@ -1,3 +1,6 @@
+## V1.0.8
+Deprecated Init.getInstance, use Init.init .
+
 ## V1.0.7
 添加 getFileNameFromUri 方法  
 更新依赖  

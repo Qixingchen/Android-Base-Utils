@@ -27,7 +27,16 @@ public class Init {
         Init.UA_NAME = UA_NAME;
     }
 
+
+    /**
+     * @deprecated use {@link #init(Application, boolean, String, String)}
+     */
+    @Deprecated
     public static Init getInstance(Application application, boolean isDebug, String versionName, String UA_NAME) {
+        return init(application, isDebug, versionName, UA_NAME);
+    }
+
+    public static Init init(Application application, boolean isDebug, String versionName, String UA_NAME) {
         if (sInstance == null) {
             synchronized (Init.class) {
                 if (sInstance == null) {
