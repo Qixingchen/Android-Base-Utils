@@ -36,13 +36,12 @@ dependencies {
     compile "com.android.support:design:$supportLibraryVersion"
 
     //network
-    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
     //stetho
     compile 'com.facebook.stetho:stetho:1.5.0'
 
     testCompile 'junit:junit:4.12'
 }
-
 
 // build a jar with source files
 task sourcesJar(type: Jar) {
@@ -51,7 +50,7 @@ task sourcesJar(type: Jar) {
 }
 
 task javadoc(type: Javadoc) {
-    failOnError  false
+    failOnError false
     source = android.sourceSets.main.java.sourceFiles
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     classpath += configurations.compile

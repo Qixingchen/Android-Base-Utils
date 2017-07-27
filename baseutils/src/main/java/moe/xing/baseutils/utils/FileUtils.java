@@ -1,7 +1,9 @@
 package moe.xing.baseutils.utils;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.OpenableColumns;
@@ -38,6 +40,7 @@ public class FileUtils {
      * @return 文件
      * @throws IOException 文件无法创建或者名称对应的不是文件
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @NonNull
     public static File getCacheFile(@NonNull String name) throws IOException {
         File cacheFile = new File(getCacheDir(), name);
@@ -77,10 +80,7 @@ public class FileUtils {
      */
     public static boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     /**
@@ -103,7 +103,7 @@ public class FileUtils {
      *
      * @param src 源文夹
      * @param dst 复制到的文件
-     * @throws IOException
+     * @throws IOException 复制错误
      */
     @WorkerThread
     public static void CopyFile(File src, File dst) throws IOException {
@@ -116,7 +116,7 @@ public class FileUtils {
      *
      * @param src 源文夹
      * @param dst 复制到的文件
-     * @throws IOException
+     * @throws IOException 复制错误
      */
     @WorkerThread
     public static void CopyFile(FileDescriptor src, File dst) throws IOException {
@@ -129,7 +129,7 @@ public class FileUtils {
      *
      * @param inStream 源文夹流
      * @param dst      复制到的文件
-     * @throws IOException
+     * @throws IOException 复制错误
      */
     @WorkerThread
     public static void CopyFile(FileInputStream inStream, File dst) throws IOException {
@@ -177,7 +177,7 @@ public class FileUtils {
     protected static String convertStreamToString(InputStream is) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         StringBuilder sb = new StringBuilder();
-        String line = null;
+        String line;
         while ((line = reader.readLine()) != null) {
             sb.append(line).append("\n");
         }
@@ -244,4 +244,31 @@ public class FileUtils {
         return "noname";
     }
 
+    /**
+     * 将 bitmap 转为文件
+     *
+     * @param bitmap 需要转换的图片
+     * @return 转换得到的文件
+     * @throws IOException 转换失败
+     */
+    public static File bitmapToFile(@NonNull Bitmap bitmap, @NonNull File file) throws IOException {
+        FileOutputStream fOut = new FileOutputStream(file);
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fOut);
+        fOut.flush();
+        fOut.close();
+        return file;
+    }
+
+    /**
+     * 通知系统新图片储存
+     *
+     * @param file 新储存的图片
+     */
+    public static void notifyImageSaved(@NonNull File file) {
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.fromFile(file);
+        mediaScanIntent.setData(contentUri);
+        Init.getApplication().sendBroadcast(mediaScanIntent);
+    }
 }

@@ -1,3 +1,7 @@
+## V1.1.0
+add ColoredText class
+add FileUtils.bitmapToFile and FileUtils.notifyImageSaved
+
 ## V1.0.8
 Deprecated Init.getInstance, use Init.init .
 
