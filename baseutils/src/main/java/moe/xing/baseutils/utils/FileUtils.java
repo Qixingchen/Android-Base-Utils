@@ -99,6 +99,43 @@ public class FileUtils {
     }
 
     /**
+     * 获取数据文件夹(优先外部)
+     *
+     * @return 文件夹
+     */
+    @NonNull
+    public static File getDataDir() {
+        if (isExternalStorageWritable()) {
+            //noinspection ConstantConditions
+            return Init.getApplication().getExternalFilesDir(null);
+        } else {
+            return Init.getApplication().getFilesDir();
+        }
+    }
+
+    /**
+     * 获取新的数据文件(优先外部)
+     *
+     * @param name 文件名
+     * @return 文件
+     * @throws IOException 文件无法创建或者名称对应的不是文件
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @NonNull
+    public static File getDataFile(@NonNull String name) throws IOException {
+        File dataFile = new File(getDataDir(), name);
+        if (!dataFile.getParentFile().exists()) {
+            dataFile.getParentFile().mkdirs();
+        }
+
+        dataFile.createNewFile();
+        if (!dataFile.exists() || !dataFile.isFile()) {
+            throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
+        }
+        return dataFile;
+    }
+
+    /**
      * 复制文件
      *
      * @param src 源文夹

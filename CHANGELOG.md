@@ -1,3 +1,6 @@
+## V1.1.1
+add getDataDir() and  getDataFile(String name)
+
 ## V1.1.0
 add ColoredText class
 add FileUtils.bitmapToFile and FileUtils.notifyImageSaved
