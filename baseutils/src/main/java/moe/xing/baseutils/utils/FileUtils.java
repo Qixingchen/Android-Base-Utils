@@ -10,17 +10,20 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
-import java.io.BufferedReader;
+import org.apache.commons.io.IOUtils;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 import moe.xing.baseutils.Init;
 import moe.xing.baseutils.R;
@@ -40,16 +43,20 @@ public class FileUtils {
      * @return 文件
      * @throws IOException 文件无法创建或者名称对应的不是文件
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @NonNull
     public static File getCacheFile(@NonNull String name) throws IOException {
         File cacheFile = new File(getCacheDir(), name);
         if (!cacheFile.getParentFile().exists()) {
-            cacheFile.getParentFile().mkdirs();
+            if (!cacheFile.getParentFile().mkdirs()) {
+                throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
+            }
         }
-
-        cacheFile.createNewFile();
-        if (!cacheFile.exists() || !cacheFile.isFile()) {
+        if (cacheFile.exists()) {
+            if (!cacheFile.delete()) {
+                throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
+            }
+        }
+        if (!cacheFile.createNewFile() || !cacheFile.exists() || !cacheFile.isFile()) {
             throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
         }
         return cacheFile;
@@ -120,16 +127,21 @@ public class FileUtils {
      * @return 文件
      * @throws IOException 文件无法创建或者名称对应的不是文件
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @NonNull
     public static File getDataFile(@NonNull String name) throws IOException {
         File dataFile = new File(getDataDir(), name);
         if (!dataFile.getParentFile().exists()) {
-            dataFile.getParentFile().mkdirs();
+            if (!dataFile.getParentFile().mkdirs()) {
+                throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
+            }
         }
 
-        dataFile.createNewFile();
-        if (!dataFile.exists() || !dataFile.isFile()) {
+        if (dataFile.exists()) {
+            if (!dataFile.delete()) {
+                throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
+            }
+        }
+        if (!dataFile.createNewFile() || !dataFile.exists() || !dataFile.isFile()) {
             throw new IOException(Init.getApplication().getString(R.string.error_in_make_file));
         }
         return dataFile;
@@ -212,14 +224,11 @@ public class FileUtils {
      * 将 stream 转换为 string
      */
     protected static String convertStreamToString(InputStream is) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            sb.append(line).append("\n");
-        }
-        reader.close();
-        return sb.toString();
+
+        StringWriter writer = new StringWriter();
+        IOUtils.copy(is, writer, Charset.forName(StandardCharsets.UTF_8.name()));
+
+        return writer.toString();
     }
 
     /**

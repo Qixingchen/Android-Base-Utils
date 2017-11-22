@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.sdk_version
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion rootProject.ext.sdk_version
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,9 @@ dependencies {
     })
     compile "com.android.support:support-annotations:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    api group: 'commons-io', name: 'commons-io', version: '2.6'
 
     //network
     compile 'com.squareup.okhttp3:okhttp:3.9.0'

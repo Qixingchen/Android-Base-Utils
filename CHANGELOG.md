@@ -1,3 +1,7 @@
+## V1.1.2
+add apache commons io  
+fix getDataFile and getCacheFile not create new file
+
 ## V1.1.1
 add getDataDir() and  getDataFile(String name)
 
