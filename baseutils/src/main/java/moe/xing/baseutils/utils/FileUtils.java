@@ -269,9 +269,10 @@ public class FileUtils {
      * @return 文件名
      */
     public static String getFileNameFromUri(@NonNull Uri uri) {
-        Cursor cursor = Init.getApplication().getContentResolver()
-                .query(uri, null, null, null, null, null);
+        Cursor cursor = null;
         try {
+            cursor = Init.getApplication().getContentResolver()
+                    .query(uri, null, null, null, null, null);
             // moveToFirst() returns false if the cursor has 0 rows.  Very handy for
             // "if there's anything to look at, look at it" conditionals.
             if (cursor != null && cursor.moveToFirst()) {

@@ -1,3 +1,6 @@
+## V1.1.3
+fix getFileNameFromUri crash
+
 ## V1.1.2
 add apache commons io  
 fix getDataFile and getCacheFile not create new file

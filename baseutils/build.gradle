@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.sdk_version
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion rootProject.ext.sdk_version
         versionCode 1
         versionName "1.0"
@@ -38,9 +38,9 @@ dependencies {
     api group: 'commons-io', name: 'commons-io', version: '2.6'
 
     //network
-    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.squareup.okhttp3:okhttp:4.0.1'
     //stetho
-    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.facebook.stetho:stetho:1.5.1'
 
     testCompile 'junit:junit:4.12'
 }
