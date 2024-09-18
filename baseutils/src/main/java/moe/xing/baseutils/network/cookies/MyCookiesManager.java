@@ -34,8 +34,8 @@ public class MyCookiesManager implements CookieJar {
     public void saveFromResponse(@NonNull HttpUrl url, List<Cookie> cookies) {
         if (cookies != null && cookies.size() > 0) {
             for (Cookie item : cookies) {
-                if (url.uri().getHost().contains("ci123")) {
-                    url = HttpUrl.parse("http://ci123.com");
+                if (url.uri().getHost().contains("jwbpro.com") || url.uri().getHost().contains("sc-edu.com")) {
+                    url = HttpUrl.parse("http://jwb.sc-edu.com");
                 }
                 cookieStore.add(url, item);
             }
@@ -54,9 +54,9 @@ public class MyCookiesManager implements CookieJar {
         if (url == null) {
             return new ArrayList<>();
         }
-        if (url.uri().getHost().contains("ci123")) {
-            url = HttpUrl.parse("http://ci123.com");
-        }
+        if (url.uri().getHost().contains("jwbpro.com") || url.uri().getHost().contains("sc-edu.com")) {
+                    url = HttpUrl.parse("http://jwb.sc-edu.com");
+                }
         return cookieStore.get(url);
     }
 }
